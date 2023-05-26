@@ -1,0 +1,211 @@
+:root {
+  --background: rgb(38 41 44);
+  --boxShadow: 0px 5px 5px #000;
+}
+.App {
+  text-align: center;
+  background-color: var(--background);
+}
+
+
+/*------------CSS RESET SECTION-------------------*/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+img,
+picture,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+textarea,
+button,
+select {
+    font: inherit;
+}
+
+/* CSS for Note Taking Window */
+.note-input-field{
+  border-radius: 10px;
+  background-color: var(--background);;
+  border: 1px solid darkgray;
+  box-shadow: var(--boxShadow);
+  color: #fff;
+}
+
+.note-input-field:focus{
+  outline: none;
+}
+.custom-input-field{
+  text-align: left;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  padding: 5px;
+  width: 100%; 
+  background-color: var(--background);
+  color: #fff;
+}
+
+.custom-title-field{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+ 
+}
+.note-window {
+  max-width: 400px;
+  width: 100%;
+  height: 300px;
+  border: 1px solid darkgray;
+  box-sizing: border-box;
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+.card-size{
+  width: 65%;
+  height: 150px;
+  cursor: pointer;
+  background-color: var(--background);
+  color: white;
+  border: 1px solid darkgray;
+  box-shadow: var(--boxShadow);
+ 
+}
+.card-size:hover{
+  background-color: rgb(43 46 50);
+}
+
+
+
+.text-box{  
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 80px;
+}
+.note-window textarea {
+  width: 100%;
+  height: 85%;
+  border: none;
+  resize: none;
+  font-size: 14px;
+  padding: 5px;
+}
+
+.note-window .btn-save {
+  display: block;
+  width: 80px;
+  margin-top: 10px;
+  padding: 5px;
+  background-color: var(--background);
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.note-window .btn-save:hover {
+  background-color: #357ae8;
+}
+
+.note-window .btn-save:active {
+  background-color: #2456b3;
+}
+
+.custom-btn{
+  background-color: var(--background);
+  border-radius: 10px;
+  border: 1px solid darkgray;
+  color: #fff;
+}
+
+.notes-content{
+  background-color: var(--background);
+  color: #fff;
+  width: 100%;
+}
+.notes-content:focus {
+  background-color: var(--background);
+  border-color: transparent;
+  outline: none;
+}
+.modal-body{
+  /* min-height: 250vh; */
+}
+.modal-title, .modal-body{
+ 
+  overflow: auto;
+}
+
+.modal-content{
+  background-color: var(--background);
+  color: #fff;
+  box-shadow: var(--boxShadow);
+}
+
+.whitespace{
+  white-space: pre;
+}
+
+.btn-close:focus{
+box-shadow: none;
+}
+
+.card-body{
+  position: relative;
+}
+.dropdown{
+  position: absolute;
+  top: 0;
+  right: 5px;
+  
+}
+
+.dropdown button{
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.dropdown-toggle.btn:hover{
+  background:none;
+}
+
+.dropdown-toggle.btn:active{
+  background: none;
+}
+
+.dropdown-toggle.btn:focus{
+  background: none;
+}
+.dropdown-menu{
+  background-color:var(--background);
+  
+}
+
+.dropdown-item{
+color: #fff;
+}
+.dropdown-item:active{
+  background: none;
+}
+
+.signout-btn{
+  float: right;
+  color: rgba(255, 255, 255, 0.55);
+  background: none;
+  border: none;
+}
+
+.signout-btn:hover{
+  color:#fff
+}
