@@ -5,21 +5,20 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-
+import { ToastContainer, toast } from "react-toastify";
 const Login = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      sessionStorage.setItem("login", true);
+      const signin = await signInWithEmailAndPassword(auth, email, password);
+      let userId = signin.user.uid;
+      sessionStorage.setItem("userId", userId);
       navigate("/notes"); // Redirect to notes page upon successful login
     } catch (error) {
-      setErrorMessage(error.message);
+      toast.error(error.message, { theme: "dark" });
     }
   };
 
@@ -29,7 +28,7 @@ const Login = () => {
       sessionStorage.setItem("login", true);
       navigate("/notes"); // Redirect to notes page upon successful registration
     } catch (error) {
-      setErrorMessage(error.message);
+      toast(error.message);
     }
   };
 
@@ -58,9 +57,7 @@ const Login = () => {
             />
           </div>
           <div className="row">
-            {errorMessage && (
-              <div className="alert alert-danger">{errorMessage}</div>
-            )}
+            <ToastContainer />
           </div>
           <div className="row justify-content-center align-items-center">
             <div className="col-2 m-2">

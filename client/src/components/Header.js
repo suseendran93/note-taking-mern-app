@@ -13,7 +13,6 @@ export const Header = () => {
         // Sign-out successful. Perform any additional actions if needed.
         navigate("/");
         sessionStorage.clear();
-        console.log("User signed out successfully");
       })
       .catch((error) => {
         // An error occurred during sign-out. Handle the error.

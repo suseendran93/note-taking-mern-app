@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Modal, Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
-import { getNote } from "../api";
-const NotesDisplay = ({ refresh }) => {
+import { Modal, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { getNote, updateNote, deleteNote } from "../api";
+const NotesDisplay = ({ refresh, userId }) => {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
   const [openMenuId, setOpenMenuId] = useState(null);
@@ -10,11 +10,12 @@ const NotesDisplay = ({ refresh }) => {
   const [id, setId] = useState();
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
+
   useEffect(() => {
-    getNote().then((data) => {
+    getNote(userId).then((data) => {
       setNotes(data);
     });
-  }, [refresh]);
+  }, [refresh, userId]);
 
   const handleShowNoteModal = (note) => {
     setSelectedNote(note);
@@ -45,16 +46,12 @@ const NotesDisplay = ({ refresh }) => {
   };
 
   const handleDelete = () => {
-    fetch(`http://localhost:5000/notes/remove/${id}`, {
-      method: "DELETE",
-    })
-      .then(() => {
-        getNote().then((data) => {
-          setShowConfirmDialog(false);
-          setNotes(data);
-        });
-      })
-      .catch((error) => console.log(error));
+    deleteNote(id).then(() => {
+      getNote(userId).then((data) => {
+        setShowConfirmDialog(false);
+        setNotes(data);
+      });
+    });
   };
 
   const handleContentChange = (e) => {
@@ -66,31 +63,26 @@ const NotesDisplay = ({ refresh }) => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    const requestOptions = {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: title || showEditModal.title,
-        text: content || showEditModal.text,
-      }),
-    };
-    fetch("http://localhost:5000/notes/update/" + id, requestOptions).then(
-      () => {
-        setContent("");
-        setTitle("");
-        setShowEditModal(null);
-        getNote().then((data) => {
-          setShowConfirmDialog(false);
-          setNotes(data);
-        });
-      }
-    );
+
+    updateNote(
+      title || showEditModal.title,
+      content || showEditModal.text,
+      id
+    ).then(() => {
+      setContent("");
+      setTitle("");
+      setShowEditModal(null);
+      getNote(userId).then((data) => {
+        setShowConfirmDialog(false);
+        setNotes(data);
+      });
+    });
   };
 
   const reversedData = notes && notes.slice().reverse();
   return (
     <>
-      {reversedData ? (
+      {reversedData.length !== 0 ? (
         reversedData.map((note) => {
           return (
             <div

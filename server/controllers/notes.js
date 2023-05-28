@@ -3,7 +3,12 @@ import Notes from "../models/Notes.js";
 export const getAllNotes = (req, res) => {
   Notes.find()
     .then((notes) => {
-      res.send(notes);
+      const userNotes = [];
+      notes.map((note) => {
+        if (req.query.userId === note.userId) userNotes.push(note);
+      });
+
+      res.send(userNotes);
     })
     .catch((error) => {
       console.log(error);
@@ -27,8 +32,9 @@ export const getNoteById = (req, res) => {
 };
 
 export const addNote = (req, res) => {
-  const { title, text } = req.body;
+  const { userId, title, text } = req.body;
   const note = new Notes({
+    userId,
     title,
     text,
   });

@@ -9,7 +9,7 @@ import {
 
 export const notesRouter = express.Router();
 
-notesRouter.get("/retrieve", getAllNotes);
+notesRouter.get("/retrieve/", getAllNotes);
 notesRouter.get("/retrieve/:id", getNoteById);
 notesRouter.post("/add", addNote);
 notesRouter.delete("/remove/:id", deleteNote);

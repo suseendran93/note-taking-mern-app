@@ -8,10 +8,11 @@ const Notes = () => {
   const [title, setTitle] = useState("");
   const [refresh, setRefresh] = useState(false);
   const [noteModal, setNoteModal] = useState(false);
+  const userId = sessionStorage.getItem("userId");
   const handleSubmit = (e) => {
     e.preventDefault();
     handleAddNote();
-    addNote(title, content).then(() => {
+    addNote(title, content, userId).then(() => {
       setTitle("");
       setContent("");
       setRefresh(!refresh);
@@ -76,9 +77,9 @@ const Notes = () => {
           </div>
         )}
       </div>
-      <div className="container">
+      <div className="container" style={{ height: "100vh" }}>
         <div className="row justify-content-center align-items-center">
-          <NotesDisplay refresh={refresh} />
+          <NotesDisplay refresh={refresh} userId={userId} />
         </div>
       </div>
 
