@@ -30,7 +30,7 @@ select {
     font: inherit;
 }
 
-/* CSS for Note Taking Window */
+/*--------------------- CSS for Note Taking Window-------------- */
 .note-input-field{
   border-radius: 10px;
   background-color: var(--background);;
@@ -72,7 +72,6 @@ select {
 
 .card-size{
   width: 65%;
-  height: 150px;
   cursor: pointer;
   background-color: var(--background);
   color: white;
@@ -87,10 +86,10 @@ select {
 
 
 .text-box{  
-  white-space: nowrap;
+  /* white-space: nowrap; */
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 80px;
+  max-height: 150px;
 }
 .note-window textarea {
   width: 100%;
@@ -138,9 +137,7 @@ select {
   border-color: transparent;
   outline: none;
 }
-.modal-body{
-  /* min-height: 250vh; */
-}
+
 .modal-title, .modal-body{
  
   overflow: auto;

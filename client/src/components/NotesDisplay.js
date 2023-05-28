@@ -121,7 +121,7 @@ const NotesDisplay = ({ refresh, userId }) => {
                       Delete
                     </Dropdown.Item>
                   </DropdownButton>
-                  <p className="card-text text-box whitespace">{note.text}</p>
+                  <p className="card-text text-box">{note.text}</p>
                 </div>
               </div>
             </div>
@@ -182,37 +182,41 @@ const NotesDisplay = ({ refresh, userId }) => {
           size="lg"
           scrollable={true}
         >
-          <form onSubmit={handleUpdate}>
-            <div className="col-12 note-window" style={{ margin: "10px auto" }}>
-              <input
-                type="text"
-                className="custom-input-field"
-                placeholder="Title"
-                defaultValue={showEditModal.title}
-                onChange={handleTitleChange}
-                maxLength={40}
-              />
-
-              <textarea
-                className="notes-content"
-                placeholder="Take a note...."
-                defaultValue={showEditModal.text}
-                onChange={handleContentChange}
-              ></textarea>
-            </div>
-            <div className="row justify-content-center align-items-center">
-              <div className="col-2 m-2">
-                <button className="custom-btn" type="submit" value="submit">
-                  Update
-                </button>
+          <Modal.Body>
+            <form onSubmit={handleUpdate}>
+              <div
+                className="col-12 note-window"
+                style={{ margin: "10px auto" }}
+              >
+                <input
+                  type="text"
+                  className="custom-input-field"
+                  placeholder="Title"
+                  defaultValue={showEditModal.title}
+                  onChange={handleTitleChange}
+                  maxLength={40}
+                />
+                <textarea
+                  className="notes-content"
+                  placeholder="Take a note...."
+                  defaultValue={showEditModal.text}
+                  onChange={handleContentChange}
+                ></textarea>
               </div>
-              <div className="col-2">
-                <button className="custom-btn" onClick={handleCloseEditModal}>
-                  Close
-                </button>
+              <div className="row justify-content-center align-items-center">
+                <div className="col-2 m-2">
+                  <button className="custom-btn" type="submit" value="submit">
+                    Update
+                  </button>
+                </div>
+                <div className="col-2">
+                  <button className="custom-btn" onClick={handleCloseEditModal}>
+                    Close
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </Modal.Body>
         </Modal>
       )}
     </>

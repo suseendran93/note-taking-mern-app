@@ -1,8 +1,8 @@
 import { useState } from "react";
-import NotesDisplay from "./NotesDisplay";
+import NotesDisplay from "../components/NotesDisplay";
 import { addNote } from "../api";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
 const Notes = () => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
