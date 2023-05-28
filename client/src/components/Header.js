@@ -1,11 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../firebase"; // Import the Firebase auth object
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 // Function to handle user sign-out
 
 export const Header = () => {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const handleSignOut = () => {
     auth
       .signOut()
@@ -26,10 +27,17 @@ export const Header = () => {
         color: "rgba(255, 255, 255, 0.55)",
       }}
     >
-      Notefy
-      <button className="signout-btn" onClick={handleSignOut}>
-        Sign out
-      </button>
+      <h4
+        style={{ display: "inline", cursor: "pointer" }}
+        onClick={() => window.location.reload()}
+      >
+        Noteyfy
+      </h4>
+      {location.pathname !== "/" ? (
+        <button className="signout-btn" onClick={handleSignOut}>
+          <FontAwesomeIcon icon={faSignOutAlt} />
+        </button>
+      ) : null}
     </header>
   );
 };

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Modal, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import { getNote, updateNote, deleteNote } from "../api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose, faAngleDown } from "@fortawesome/free-solid-svg-icons";
 const NotesDisplay = ({ refresh, userId }) => {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
@@ -10,7 +12,12 @@ const NotesDisplay = ({ refresh, userId }) => {
   const [id, setId] = useState();
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
-
+  /*
+  rebeccapurple
+  cadetblue
+  darkolivegreen
+  goldenrod
+  */
   useEffect(() => {
     getNote(userId).then((data) => {
       setNotes(data);
@@ -82,7 +89,7 @@ const NotesDisplay = ({ refresh, userId }) => {
   const reversedData = notes && notes.slice().reverse();
   return (
     <>
-      {reversedData.length !== 0 ? (
+      {reversedData && reversedData.length !== 0 ? (
         reversedData.map((note) => {
           return (
             <div
@@ -103,7 +110,7 @@ const NotesDisplay = ({ refresh, userId }) => {
                   <DropdownButton
                     id={`cardMenuButton-${note._id}`}
                     variant="secondary"
-                    title={<i className="bi bi-three-dots-vertical"></i>}
+                    title={<FontAwesomeIcon icon={faAngleDown} />}
                     show={openMenuId === note._id}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -141,10 +148,16 @@ const NotesDisplay = ({ refresh, userId }) => {
           size="lg"
           scrollable={true}
         >
-          <Modal.Header closeButton onClick={handleCloseNoteModal}>
+          <Modal.Header>
             <Modal.Title className="modal-title">
               {selectedNote.title}
             </Modal.Title>
+
+            <FontAwesomeIcon
+              icon={faClose}
+              style={{ cursor: "pointer", fontSize: "24px" }}
+              onClick={handleCloseNoteModal}
+            />
           </Modal.Header>
           <Modal.Body
             className="modal-body "
@@ -158,7 +171,7 @@ const NotesDisplay = ({ refresh, userId }) => {
         show={showConfirmDialog}
         onHide={() => setShowConfirmDialog(false)}
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete this note?</Modal.Body>

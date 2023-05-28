@@ -1,8 +1,7 @@
 import { useState } from "react";
 import NotesDisplay from "../components/NotesDisplay";
 import { addNote } from "../api";
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
+
 const Notes = () => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
@@ -30,7 +29,6 @@ const Notes = () => {
   };
   return (
     <>
-      <Header />
       <div className="container">
         {!noteModal ? (
           <div className="row-2 m-3">
@@ -82,8 +80,6 @@ const Notes = () => {
           <NotesDisplay refresh={refresh} userId={userId} />
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };
