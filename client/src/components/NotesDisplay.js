@@ -4,7 +4,7 @@ import { getNote, updateNote, deleteNote } from "../api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import CustomizeNote from "./CustomizeNote";
-const NotesDisplay = ({ refresh, userId }) => {
+const NotesDisplay = ({ refresh, userId, setRefresh }) => {
   const [notes, setNotes] = useState([]);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showEditModal, setShowEditModal] = useState(null);
@@ -27,7 +27,7 @@ const NotesDisplay = ({ refresh, userId }) => {
   const handleShowEditModal = (note) => {
     // Handle edit logic
     setId(note._id);
-    setShowEditModal(note);
+    setShowEditModal({ ...note, color });
   };
 
   const handleCloseEditModal = (e) => {
@@ -163,7 +163,12 @@ const NotesDisplay = ({ refresh, userId }) => {
           </Modal.Body>
           <Modal.Footer className="row" style={{ background: color }}>
             <div className="col-10" style={{ margin: 0 }}>
-              <CustomizeNote id={id} notes={notes} />
+              <CustomizeNote
+                id={id}
+                notes={notes}
+                setRefresh={setRefresh}
+                refresh={refresh}
+              />
             </div>
 
             <div

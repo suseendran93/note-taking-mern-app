@@ -77,7 +77,11 @@ const Notes = () => {
       </div>
       <div className="container" style={{ height: "100vh" }}>
         <div className="row justify-content-center align-items-center">
-          <NotesDisplay refresh={refresh} userId={userId} />
+          <NotesDisplay
+            refresh={refresh}
+            userId={userId}
+            setRefresh={setRefresh}
+          />
         </div>
       </div>
     </>

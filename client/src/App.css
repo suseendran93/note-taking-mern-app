@@ -227,3 +227,20 @@ input:-internal-autofill-selected {
 .edit-icons:hover{
   color:grey
 }
+
+.color-palette{
+  justify-content: space-around;
+}
+.choose-color-icon{
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid;
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.choose-color-icon:hover
+{
+  opacity: 1;
+}
