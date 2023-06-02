@@ -220,3 +220,10 @@ color: #fff;
 input:-internal-autofill-selected {
   background: none;
 }
+
+.edit-icons{
+  cursor: pointer;
+}
+.edit-icons:hover{
+  color:grey
+}

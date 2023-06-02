@@ -18,13 +18,16 @@ const getNote = async (userId) => {
     })
     .catch((error) => console.log(error));
 };
-const updateNote = async (title, text, id) => {
+const updateNote = async (noteObj, id) => {
   const requestOptions = {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      title: title,
-      text: text,
+      title: noteObj.title,
+      text: noteObj.text,
+      color: noteObj.color,
+      group: noteObj.group,
+      archive: noteObj.archive,
     }),
   };
 

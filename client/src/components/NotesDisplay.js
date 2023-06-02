@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
-import { Modal, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import { getNote, updateNote, deleteNote } from "../api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose, faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import CustomizeNote from "./CustomizeNote";
 const NotesDisplay = ({ refresh, userId }) => {
   const [notes, setNotes] = useState([]);
-  const [selectedNote, setSelectedNote] = useState(null);
-  const [openMenuId, setOpenMenuId] = useState(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showEditModal, setShowEditModal] = useState(null);
   const [id, setId] = useState();
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
+  const [color, setColor] = useState("");
   /*
   rebeccapurple
   cadetblue
@@ -24,38 +24,23 @@ const NotesDisplay = ({ refresh, userId }) => {
     });
   }, [refresh, userId]);
 
-  const handleShowNoteModal = (note) => {
-    setSelectedNote(note);
-  };
-
-  const handleCloseNoteModal = () => {
-    setSelectedNote(null);
-  };
-
-  const handleToggleMenu = (noteId) => {
-    setOpenMenuId(openMenuId === noteId ? null : noteId); //This toggles the menu
-  };
-
   const handleShowEditModal = (note) => {
     // Handle edit logic
     setId(note._id);
     setShowEditModal(note);
   };
 
-  const handleCloseEditModal = () => {
+  const handleCloseEditModal = (e) => {
     // Handle edit logic
+    handleUpdate(e);
     setShowEditModal(null);
-  };
-
-  const handleDeleteDialogBox = (id) => {
-    setId(id);
-    setShowConfirmDialog(true);
   };
 
   const handleDelete = () => {
     deleteNote(id).then(() => {
       getNote(userId).then((data) => {
         setShowConfirmDialog(false);
+        setShowEditModal(null);
         setNotes(data);
       });
     });
@@ -70,20 +55,24 @@ const NotesDisplay = ({ refresh, userId }) => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-
-    updateNote(
-      title || showEditModal.title,
-      content || showEditModal.text,
-      id
-    ).then(() => {
-      setContent("");
-      setTitle("");
-      setShowEditModal(null);
-      getNote(userId).then((data) => {
-        setShowConfirmDialog(false);
-        setNotes(data);
+    const newData = {
+      title: title || showEditModal.title,
+      text: content || showEditModal.text,
+    };
+    if (
+      newData.title !== showEditModal.title ||
+      newData.text !== showEditModal.text
+    ) {
+      updateNote(newData, id).then(() => {
+        setContent("");
+        setTitle("");
+        setShowEditModal(null);
+        getNote(userId).then((data) => {
+          setShowConfirmDialog(false);
+          setNotes(data);
+        });
       });
-    });
+    }
   };
 
   const reversedData = notes && notes.slice().reverse();
@@ -100,34 +89,16 @@ const NotesDisplay = ({ refresh, userId }) => {
                 className="card card-size m-1 "
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleShowNoteModal(note);
+                  setColor(note.color);
+                  handleShowEditModal(note);
                 }}
+                style={{ backgroundColor: note.color }}
               >
                 <div className="card-body">
                   <h5 className="card-title custom-title-field whitespace">
                     {note.title}
                   </h5>
-                  <DropdownButton
-                    id={`cardMenuButton-${note._id}`}
-                    variant="secondary"
-                    title={<FontAwesomeIcon icon={faAngleDown} />}
-                    show={openMenuId === note._id}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleToggleMenu(note._id);
-                    }}
-                    menualign="center"
-                    align="end"
-                  >
-                    <Dropdown.Item onClick={() => handleShowEditModal(note)}>
-                      Edit
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => handleDeleteDialogBox(note._id)}
-                    >
-                      Delete
-                    </Dropdown.Item>
-                  </DropdownButton>
+
                   <p className="card-text text-box">{note.text}</p>
                 </div>
               </div>
@@ -140,33 +111,72 @@ const NotesDisplay = ({ refresh, userId }) => {
         </div>
       )}
 
-      {selectedNote && (
+      {showEditModal && (
         <Modal
-          show={selectedNote}
-          onHide={handleCloseNoteModal}
+          className="p-3"
+          show={showEditModal}
+          onHide={handleCloseEditModal}
           backdrop="static"
           size="lg"
           scrollable={true}
         >
-          <Modal.Header>
-            <Modal.Title className="modal-title">
-              {selectedNote.title}
+          <Modal.Header className="row" style={{ background: color }}>
+            <Modal.Title
+              className="modal-title col-10"
+              style={{ background: color }}
+            >
+              <input
+                type="text"
+                className="custom-input-field "
+                placeholder="Title"
+                defaultValue={showEditModal.title}
+                onChange={handleTitleChange}
+                maxLength={40}
+                style={{ background: color }}
+              />
             </Modal.Title>
-
-            <FontAwesomeIcon
-              icon={faClose}
-              style={{ cursor: "pointer", fontSize: "24px" }}
-              onClick={handleCloseNoteModal}
-            />
+            <div className="col-2" style={{ textAlign: "right" }}>
+              <FontAwesomeIcon
+                icon={faTrash}
+                style={{ cursor: "pointer", fontSize: "16px" }}
+                onClick={() => setShowConfirmDialog(true)}
+              />
+            </div>
           </Modal.Header>
           <Modal.Body
-            className="modal-body "
-            style={{ whiteSpace: "pre-line" }}
+            className="modal-body"
+            style={{
+              whiteSpace: "pre-line",
+              overflow: "hidden",
+              backgroundColor: color,
+            }}
           >
-            <>{selectedNote.text}</>
+            <textarea
+              className="notes-content"
+              placeholder="Take a note...."
+              defaultValue={showEditModal.text}
+              onChange={handleContentChange}
+              rows="10"
+              cols="50"
+              style={{ resize: "none", border: "none", backgroundColor: color }}
+            ></textarea>
           </Modal.Body>
+          <Modal.Footer className="row" style={{ background: color }}>
+            <div className="col-10" style={{ margin: 0 }}>
+              <CustomizeNote id={id} notes={notes} />
+            </div>
+
+            <div
+              className="edit-icons edit-close-btn col-2"
+              style={{ margin: 0, textAlign: "right" }}
+              onClick={handleCloseEditModal}
+            >
+              Close
+            </div>
+          </Modal.Footer>
         </Modal>
       )}
+      {/*Delete modal below------------------------------------------------------------------ */}
       <Modal
         show={showConfirmDialog}
         onHide={() => setShowConfirmDialog(false)}
@@ -187,51 +197,6 @@ const NotesDisplay = ({ refresh, userId }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {showEditModal && (
-        <Modal
-          className="p-3"
-          show={showEditModal}
-          backdrop="static"
-          size="lg"
-          scrollable={true}
-        >
-          <Modal.Body>
-            <form onSubmit={handleUpdate}>
-              <div
-                className="col-12 note-window"
-                style={{ margin: "10px auto" }}
-              >
-                <input
-                  type="text"
-                  className="custom-input-field"
-                  placeholder="Title"
-                  defaultValue={showEditModal.title}
-                  onChange={handleTitleChange}
-                  maxLength={40}
-                />
-                <textarea
-                  className="notes-content"
-                  placeholder="Take a note...."
-                  defaultValue={showEditModal.text}
-                  onChange={handleContentChange}
-                ></textarea>
-              </div>
-              <div className="row justify-content-center align-items-center">
-                <div className="col-2 m-2">
-                  <button className="custom-btn" type="submit" value="submit">
-                    Update
-                  </button>
-                </div>
-                <div className="col-2">
-                  <button className="custom-btn" onClick={handleCloseEditModal}>
-                    Close
-                  </button>
-                </div>
-              </div>
-            </form>
-          </Modal.Body>
-        </Modal>
-      )}
     </>
   );
 };

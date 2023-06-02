@@ -14,6 +14,18 @@ const NotesSchema = new Schema({
     type: String,
     required: true,
   },
+  color: {
+    type: String,
+    default: "",
+  },
+  group: {
+    type: String,
+    default: "",
+  },
+  archive: {
+    type: Boolean,
+    default: false,
+  },
   timestamp: {
     type: String,
     default: Date.now(),
