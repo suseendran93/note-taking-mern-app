@@ -26,6 +26,15 @@ const NotesSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  pinned: {
+    type: Boolean,
+    default: false,
+  },
+  pinnedTime: {
+    type: String,
+    default: Date.now(),
+  },
+
   timestamp: {
     type: String,
     default: Date.now(),

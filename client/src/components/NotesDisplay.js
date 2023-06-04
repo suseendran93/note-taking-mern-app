@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { changeColor } from "../slices/colorSlice";
+
 import { Modal, Button } from "react-bootstrap";
 import { getNote, updateNote, deleteNote } from "../api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +15,9 @@ const NotesDisplay = ({ refresh, userId, setRefresh }) => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [color, setColor] = useState("");
+  const instantColor = useSelector((state) => state.color.value);
+  const dispatch = useDispatch();
+
   /*
   rebeccapurple
   cadetblue
@@ -22,11 +28,13 @@ const NotesDisplay = ({ refresh, userId, setRefresh }) => {
     getNote(userId).then((data) => {
       setNotes(data);
     });
-  }, [refresh, userId]);
+  }, [userId, refresh, dispatch]);
 
   const handleShowEditModal = (note) => {
     // Handle edit logic
     setId(note._id);
+    dispatch(changeColor(""));
+
     setShowEditModal({ ...note, color });
   };
 
@@ -120,10 +128,13 @@ const NotesDisplay = ({ refresh, userId, setRefresh }) => {
           size="lg"
           scrollable={true}
         >
-          <Modal.Header className="row" style={{ background: color }}>
+          <Modal.Header
+            className="row"
+            style={{ background: instantColor.payload || color }}
+          >
             <Modal.Title
               className="modal-title col-10"
-              style={{ background: color }}
+              style={{ background: instantColor.payload || color }}
             >
               <input
                 type="text"
@@ -132,7 +143,7 @@ const NotesDisplay = ({ refresh, userId, setRefresh }) => {
                 defaultValue={showEditModal.title}
                 onChange={handleTitleChange}
                 maxLength={40}
-                style={{ background: color }}
+                style={{ background: instantColor.payload || color }}
               />
             </Modal.Title>
             <div className="col-2" style={{ textAlign: "right" }}>
@@ -148,7 +159,7 @@ const NotesDisplay = ({ refresh, userId, setRefresh }) => {
             style={{
               whiteSpace: "pre-line",
               overflow: "hidden",
-              backgroundColor: color,
+              backgroundColor: instantColor.payload || color,
             }}
           >
             <textarea
@@ -158,10 +169,17 @@ const NotesDisplay = ({ refresh, userId, setRefresh }) => {
               onChange={handleContentChange}
               rows="10"
               cols="50"
-              style={{ resize: "none", border: "none", backgroundColor: color }}
+              style={{
+                resize: "none",
+                border: "none",
+                backgroundColor: instantColor.payload || color,
+              }}
             ></textarea>
           </Modal.Body>
-          <Modal.Footer className="row" style={{ background: color }}>
+          <Modal.Footer
+            className="row"
+            style={{ background: instantColor.payload || color }}
+          >
             <div className="col-10" style={{ margin: 0 }}>
               <CustomizeNote
                 id={id}

@@ -1,22 +1,33 @@
+import { useSelector, useDispatch } from "react-redux";
+import { changeColor } from "../slices/colorSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArchive,
   faCheck,
   faClose,
   faImage,
-  faListDots,
+  // faListDots,
+  faMapPin,
   faPalette,
-  faRedo,
-  faUndo,
+  // faRedo,
+  // faUndo,
 } from "@fortawesome/free-solid-svg-icons";
 import { updateNote } from "../api";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 
-const CustomizeNote = ({ id, notes, setRefresh, refresh }) => {
-  const [color, setColor] = useState("");
+const CustomizeNote = ({
+  id,
+  notes,
+  setRefresh,
+  refresh,
+  setShowEditModal,
+}) => {
+  // const [color, setColor] = useState("");
   const [data, setData] = useState([]);
   const [showColorPalette, setShowColorPalette] = useState(false);
+  const color = useSelector((state) => state.color.value);
+  const dispatch = useDispatch();
   useEffect(() => {
     notes.map((note) => {
       if (note._id === id) {
@@ -40,9 +51,10 @@ const CustomizeNote = ({ id, notes, setRefresh, refresh }) => {
   const handleApplyColor = (e) => {
     e.preventDefault();
 
-    const newData = { ...data, color: color };
+    const newData = { ...data, color: color.payload };
     updateNote(newData, id);
     setRefresh(!refresh);
+
     setShowColorPalette(false);
   };
   return (
@@ -68,11 +80,11 @@ const CustomizeNote = ({ id, notes, setRefresh, refresh }) => {
       </div>
       <div className="col-2 col-md-1 edit-icons">
         <FontAwesomeIcon
-          icon={faListDots}
+          icon={faMapPin}
           style={{ cursor: "pointer", fontSize: "16px" }}
         />
       </div>
-      <div className="col-2 col-md-1 edit-icons">
+      {/* <div className="col-2 col-md-1 edit-icons">
         <FontAwesomeIcon
           icon={faUndo}
           style={{ cursor: "pointer", fontSize: "16px" }}
@@ -83,7 +95,7 @@ const CustomizeNote = ({ id, notes, setRefresh, refresh }) => {
           icon={faRedo}
           style={{ cursor: "pointer", fontSize: "16px" }}
         />
-      </div>
+      </div> */}
       {showColorPalette && (
         <Modal
           className="p-3"
@@ -92,10 +104,10 @@ const CustomizeNote = ({ id, notes, setRefresh, refresh }) => {
           backdrop="static"
           size="sm"
         >
-          <Modal.Header style={{ background: color || data.color }}>
+          <Modal.Header style={{ background: color.payload || data.color }}>
             <Modal.Title
               className="modal-title col-10"
-              style={{ background: color || data.color }}
+              style={{ background: color.payload || data.color }}
             >
               Pick a color
             </Modal.Title>
@@ -105,7 +117,7 @@ const CustomizeNote = ({ id, notes, setRefresh, refresh }) => {
             style={{
               whiteSpace: "pre-line",
               overflow: "hidden",
-              backgroundColor: color || data.color,
+              backgroundColor: color.payload || data.color,
             }}
           >
             <div className="row color-palette">
@@ -117,7 +129,7 @@ const CustomizeNote = ({ id, notes, setRefresh, refresh }) => {
                       className="col-2 choose-color-icon"
                       style={{ background: color.code || data.color }}
                       onClick={() => {
-                        setColor(color.code);
+                        dispatch(changeColor(color.code));
                       }}
                     ></div>
                   );
@@ -126,7 +138,7 @@ const CustomizeNote = ({ id, notes, setRefresh, refresh }) => {
           </Modal.Body>
           <Modal.Footer
             style={{
-              backgroundColor: color || data.color,
+              backgroundColor: color.payload || data.color,
             }}
           >
             <FontAwesomeIcon
@@ -139,7 +151,7 @@ const CustomizeNote = ({ id, notes, setRefresh, refresh }) => {
               style={{ cursor: "pointer", fontSize: "16px" }}
               onClick={() => {
                 setShowColorPalette(false);
-                setColor("");
+                dispatch(changeColor(""));
               }}
             />
           </Modal.Footer>

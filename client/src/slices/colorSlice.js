@@ -9,7 +9,7 @@ export const colorSlice = createSlice({
   initialState,
   reducers: {
     changeColor: (state, action) => {
-      state.value = action.payload;
+      state.value = action;
     },
   },
 });
