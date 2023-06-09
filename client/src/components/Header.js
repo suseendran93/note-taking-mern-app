@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../firebase"; // Import the Firebase auth object
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faHamburger, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import Sidebar from "./Sidebar";
 // Function to handle user sign-out
 
 export const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [openSidebar, setOpenSidebar] = useState(false);
   const handleSignOut = () => {
     auth
       .signOut()
@@ -20,24 +23,45 @@ export const Header = () => {
         console.error("Error signing out:", error);
       });
   };
+  const handleSidebar = (toggle) => {
+    setOpenSidebar(toggle);
+  };
   return (
-    <header
-      style={{
-        backgroundColor: "rgba(33,37,41,1)",
-        color: "rgba(255, 255, 255, 0.55)",
-      }}
-    >
-      <h4
-        style={{ display: "inline", cursor: "pointer" }}
-        onClick={() => window.location.reload()}
+    <>
+      <header
+        style={{
+          backgroundColor: "rgba(33,37,41,1)",
+          color: "rgba(255, 255, 255, 0.55)",
+          position: "relative",
+        }}
       >
-        Noteyfy
-      </h4>
-      {location.pathname !== "/" ? (
-        <button className="signout-btn" onClick={handleSignOut}>
-          <FontAwesomeIcon icon={faSignOutAlt} />
-        </button>
-      ) : null}
-    </header>
+        {location.pathname !== "/" ? (
+          <button className="sidemenu-btn edit-icons">
+            <FontAwesomeIcon
+              icon={faHamburger}
+              style={{ cursor: "pointer", fontSize: "16px" }}
+              onClick={() => setOpenSidebar(!openSidebar)}
+            />
+          </button>
+        ) : null}
+
+        <h4
+          className="title-name edit-icons"
+          onClick={() => navigate("/notes")}
+        >
+          Noteyfy
+        </h4>
+        {location.pathname !== "/" ? (
+          <button className="signout-btn edit-icons" onClick={handleSignOut}>
+            <FontAwesomeIcon icon={faSignOutAlt} />
+          </button>
+        ) : null}
+      </header>
+      {openSidebar && (
+        <div className={`sidebar ${openSidebar ? "open" : ""} `}>
+          <Sidebar openSidebar={openSidebar} handleSidebar={handleSidebar} />
+        </div>
+      )}
+    </>
   );
 };

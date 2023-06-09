@@ -31,17 +31,30 @@ select {
 }
 
 /*--------------------- CSS for Note Taking Window-------------- */
-.note-input-field{
-  border-radius: 10px;
+.note-add-btn{
+  position: fixed;
+  z-index: 10;
+  bottom: 10%;
+  right: 5%;
+  border-radius: 50%;
   background-color: var(--background);;
   border: 1px solid darkgray;
   box-shadow: var(--boxShadow);
   color: #fff;
+  cursor: pointer;
+  font-size: 24px
+}
+.note-add-btn:hover{
+  filter:drop-shadow(0px 0px 2px #fff);
+
+}
+.note-input-field{
+  outline: none;
+  border: 1px solid darkgray;
+  box-shadow: var(--boxShadow);
+  border-radius: 10px;
 }
 
-.note-input-field:focus{
-  outline: none;
-}
 .custom-input-field{
   text-align: left;
   border-radius: 10px;
@@ -112,13 +125,13 @@ select {
   cursor: pointer;
 }
 
-.note-window .btn-save:hover {
+/* .note-window .btn-save:hover {
   background-color: #357ae8;
 }
 
 .note-window .btn-save:active {
   background-color: #2456b3;
-}
+} */
 
 .custom-btn{
   background-color: var(--background);
@@ -217,6 +230,33 @@ color: #fff;
   color:#fff
 }
 
+.sidemenu-btn{
+  float: left;
+  color: rgba(255, 255, 255, 0.55);
+  background: none;
+  border: none;
+  margin: auto 5px;
+}
+
+.sidemenu-btn:hover{
+  color:#fff
+}
+
+.sidemenu-btn:focus{
+  color:#fff
+}
+
+
+
+.title-name{
+  display: inline;
+  cursor: pointer;
+}
+
+.title-name:hover{
+  color:#fff
+
+}
 input:-internal-autofill-selected {
   background: none;
 }
@@ -225,7 +265,7 @@ input:-internal-autofill-selected {
   cursor: pointer;
 }
 .edit-icons:hover{
-  color:grey
+  filter:drop-shadow(0px 0px 2px #fff);
 }
 
 .color-palette{
@@ -243,4 +283,36 @@ input:-internal-autofill-selected {
 .choose-color-icon:hover
 {
   opacity: 1;
+}
+
+/*-----------Sidebar menu-----------------*/
+.sidebar{
+  position: absolute;
+  width: 200px;
+  height: 100vh;
+  background-color: rgba(33,37,41,1);
+  padding: 10px;
+  z-index: 2;
+  color:rgba(255, 255, 255, 0.55);
+  transition: left 0.3s ease;
+  box-shadow: var(--boxShadow);
+}
+
+.nav-item{
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.nav-item:hover{
+  color:#fff
+}
+.menu-label{
+  font-size: 16px;
+  text-align: left;
+}
+
+.section-separator {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
 }

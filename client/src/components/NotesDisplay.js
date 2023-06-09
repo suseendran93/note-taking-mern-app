@@ -7,7 +7,7 @@ import { getNote, updateNote, deleteNote } from "../api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import CustomizeNote from "./CustomizeNote";
-const NotesDisplay = ({ refresh, userId, setRefresh }) => {
+const NotesDisplay = ({ userId }) => {
   const [notes, setNotes] = useState([]);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showEditModal, setShowEditModal] = useState(null);
@@ -16,6 +16,8 @@ const NotesDisplay = ({ refresh, userId, setRefresh }) => {
   const [title, setTitle] = useState("");
   const [color, setColor] = useState("");
   const instantColor = useSelector((state) => state.color.value);
+  const refresh = useSelector((state) => state.refresh.value);
+
   const dispatch = useDispatch();
 
   /*
@@ -84,41 +86,91 @@ const NotesDisplay = ({ refresh, userId, setRefresh }) => {
   };
 
   const reversedData = notes && notes.slice().reverse();
+
+  const hasPinnedItem =
+    reversedData && reversedData.some((item) => item.pinned);
   return (
-    <>
-      {reversedData && reversedData.length !== 0 ? (
-        reversedData.map((note) => {
-          return (
-            <div
-              className="col-sm-12 col-md-4 d-flex justify-content-center align-items-center"
-              key={note._id}
-            >
-              <div
-                className="card card-size m-1 "
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setColor(note.color);
-                  handleShowEditModal(note);
-                }}
-                style={{ backgroundColor: note.color }}
-              >
-                <div className="card-body">
-                  <h5 className="card-title custom-title-field whitespace">
-                    {note.title}
-                  </h5>
+    <div className="col">
+      <div className="row">
+        {hasPinnedItem && (
+          <div className="col-12" style={{ color: "#fff", fontSize: "20px" }}>
+            PINNED
+          </div>
+        )}
+        {hasPinnedItem && reversedData && reversedData.length !== 0
+          ? reversedData.map((note) => {
+              if (note.pinned === true) {
+                return (
+                  <>
+                    <div
+                      className="col-sm-12 col-md-4 d-flex justify-content-center align-items-center"
+                      key={note._id}
+                    >
+                      <div
+                        className="card card-size m-1 "
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setColor(note.color);
+                          handleShowEditModal(note);
+                        }}
+                        style={{ backgroundColor: note.color }}
+                      >
+                        <div className="card-body">
+                          <h5 className="card-title custom-title-field whitespace">
+                            {note.title}
+                          </h5>
 
-                  <p className="card-text text-box">{note.text}</p>
+                          <p className="card-text text-box">{note.text}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              } else return null;
+            })
+          : null}
+        {hasPinnedItem && (
+          <div className="col-12">
+            <hr className="section-separator" />
+          </div>
+        )}
+      </div>
+      <div className="row">
+        {reversedData && reversedData.length !== 0 ? (
+          reversedData.map((note) => {
+            if (note.archive === false && note.pinned === false) {
+              return (
+                <div
+                  className="col-sm-12 col-md-4 d-flex justify-content-center align-items-center"
+                  key={note._id}
+                >
+                  <div
+                    className="card card-size m-1 "
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setColor(note.color);
+                      handleShowEditModal(note);
+                    }}
+                    style={{ backgroundColor: note.color }}
+                  >
+                    <div className="card-body">
+                      <h5 className="card-title custom-title-field whitespace">
+                        {note.title}
+                      </h5>
+
+                      <p className="card-text text-box">{note.text}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          );
-        })
-      ) : (
-        <div style={{ color: "rgba(255, 255, 255, 0.55)", height: "100vh" }}>
-          No notes to display , add a note.
-        </div>
-      )}
-
+              );
+            } else return null;
+          })
+        ) : (
+          <div style={{ color: "rgba(255, 255, 255, 0.55)", height: "100vh" }}>
+            No notes to display , add a note.
+          </div>
+        )}
+      </div>
       {showEditModal && (
         <Modal
           className="p-3"
@@ -146,7 +198,7 @@ const NotesDisplay = ({ refresh, userId, setRefresh }) => {
                 style={{ background: instantColor.payload || color }}
               />
             </Modal.Title>
-            <div className="col-2" style={{ textAlign: "right" }}>
+            <div className="col-2 edit-icons" style={{ textAlign: "right" }}>
               <FontAwesomeIcon
                 icon={faTrash}
                 style={{ cursor: "pointer", fontSize: "16px" }}
@@ -184,8 +236,7 @@ const NotesDisplay = ({ refresh, userId, setRefresh }) => {
               <CustomizeNote
                 id={id}
                 notes={notes}
-                setRefresh={setRefresh}
-                refresh={refresh}
+                setShowEditModal={setShowEditModal}
               />
             </div>
 
@@ -220,7 +271,7 @@ const NotesDisplay = ({ refresh, userId, setRefresh }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 };
 

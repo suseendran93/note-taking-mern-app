@@ -1,32 +1,25 @@
 import { useSelector, useDispatch } from "react-redux";
 import { changeColor } from "../slices/colorSlice";
+import { changeRefresh } from "../slices/RefreshSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArchive,
   faCheck,
   faClose,
   faImage,
-  // faListDots,
   faMapPin,
   faPalette,
-  // faRedo,
-  // faUndo,
 } from "@fortawesome/free-solid-svg-icons";
 import { updateNote } from "../api";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 
-const CustomizeNote = ({
-  id,
-  notes,
-  setRefresh,
-  refresh,
-  setShowEditModal,
-}) => {
-  // const [color, setColor] = useState("");
+const CustomizeNote = ({ id, notes, setShowEditModal }) => {
   const [data, setData] = useState([]);
   const [showColorPalette, setShowColorPalette] = useState(false);
   const color = useSelector((state) => state.color.value);
+  const refresh = useSelector((state) => state.refresh.value);
+
   const dispatch = useDispatch();
   useEffect(() => {
     notes.map((note) => {
@@ -53,9 +46,24 @@ const CustomizeNote = ({
 
     const newData = { ...data, color: color.payload };
     updateNote(newData, id);
-    setRefresh(!refresh);
-
+    dispatch(changeRefresh(!refresh));
     setShowColorPalette(false);
+  };
+
+  const handleArchive = (e) => {
+    e.preventDefault();
+    const newData = { ...data, archive: !data.archive };
+    updateNote(newData, id);
+    dispatch(changeRefresh(!refresh));
+    setShowEditModal(null);
+  };
+  const handlePinned = (e) => {
+    e.preventDefault();
+    console.log("pinned");
+    const newData = { ...data, pinned: !data.pinned };
+    updateNote(newData, id);
+    dispatch(changeRefresh(!refresh));
+    setShowEditModal(null);
   };
   return (
     <div className="row">
@@ -72,13 +80,13 @@ const CustomizeNote = ({
           style={{ cursor: "pointer", fontSize: "16px" }}
         />
       </div>
-      <div className="col-2 col-md-1 edit-icons">
+      <div className="col-2 col-md-1 edit-icons" onClick={handleArchive}>
         <FontAwesomeIcon
           icon={faArchive}
           style={{ cursor: "pointer", fontSize: "16px" }}
         />
       </div>
-      <div className="col-2 col-md-1 edit-icons">
+      <div className="col-2 col-md-1 edit-icons" onClick={handlePinned}>
         <FontAwesomeIcon
           icon={faMapPin}
           style={{ cursor: "pointer", fontSize: "16px" }}

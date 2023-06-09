@@ -28,6 +28,7 @@ const updateNote = async (noteObj, id) => {
       color: noteObj.color,
       group: noteObj.group,
       archive: noteObj.archive,
+      pinned: noteObj.pinned,
     }),
   };
 
