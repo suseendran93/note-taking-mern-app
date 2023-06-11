@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeColor } from "../slices/colorSlice";
-
+import { useLocation } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import { getNote, updateNote, deleteNote } from "../api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faMapPin, faTrash } from "@fortawesome/free-solid-svg-icons";
 import CustomizeNote from "./CustomizeNote";
+
 const NotesDisplay = ({ userId }) => {
   const [notes, setNotes] = useState([]);
+  const [filteredNotes, setFilteredNotes] = useState([]);
+
+  const location = useLocation();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showEditModal, setShowEditModal] = useState(null);
   const [id, setId] = useState();
@@ -17,15 +21,26 @@ const NotesDisplay = ({ userId }) => {
   const [color, setColor] = useState("");
   const instantColor = useSelector((state) => state.color.value);
   const refresh = useSelector((state) => state.refresh.value);
-
   const dispatch = useDispatch();
-
+  const params = new URLSearchParams(location.search);
+  const searchParam = params.get("search");
   /*
   rebeccapurple
   cadetblue
   darkolivegreen
   goldenrod
   */
+  useEffect(() => {
+    // Filter the notes based on the searchParam
+    const filteredNotes = searchParam
+      ? notes.filter(
+          (note) =>
+            note.text.toLowerCase().includes(searchParam.toLowerCase()) ||
+            note.title.toLowerCase().includes(searchParam.toLowerCase())
+        )
+      : notes;
+    setFilteredNotes(filteredNotes);
+  }, [notes, searchParam]);
   useEffect(() => {
     getNote(userId).then((data) => {
       setNotes(data);
@@ -93,12 +108,24 @@ const NotesDisplay = ({ userId }) => {
     <div className="col">
       <div className="row">
         {hasPinnedItem && (
-          <div className="col-12" style={{ color: "#fff", fontSize: "20px" }}>
-            PINNED
+          <div
+            className="col-12"
+            style={{ color: "rgba(255, 255, 255, 0.55)", fontSize: "20px" }}
+          >
+            <div className="row justify-content-center align-items-center">
+              <div className="col-6">
+                {" "}
+                <FontAwesomeIcon
+                  icon={faMapPin}
+                  style={{ cursor: "pointer", fontSize: "20px" }}
+                />
+                <span style={{ margin: "10px" }}>PINNED</span>
+              </div>
+            </div>
           </div>
         )}
         {hasPinnedItem && reversedData && reversedData.length !== 0
-          ? reversedData.map((note) => {
+          ? filteredNotes.map((note) => {
               if (note.pinned === true) {
                 return (
                   <>
@@ -137,7 +164,7 @@ const NotesDisplay = ({ userId }) => {
       </div>
       <div className="row">
         {reversedData && reversedData.length !== 0 ? (
-          reversedData.map((note) => {
+          filteredNotes.map((note) => {
             if (note.archive === false && note.pinned === false) {
               return (
                 <div

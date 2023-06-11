@@ -5,6 +5,10 @@
 .App {
   text-align: center;
   background-color: var(--background);
+  font-family: 'Nunito', sans-serif,'Segoe UI', 'Roboto', 'Oxygen',
+'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+sans-serif; ;
+
 }
 
 
@@ -13,6 +17,7 @@
 *::before,
 *::after {
     box-sizing: border-box;
+    
 }
 
 img,
@@ -315,4 +320,36 @@ input:-internal-autofill-selected {
   border: none;
   border-top: 1px solid #ccc;
   margin: 20px 0;
+}
+
+.forgot-password .modal-content{
+  min-height:150px;
+  padding: 30px;
+}
+
+/*Header section-------------------------*/
+.header{
+  background-color: rgba(33,37,41,1);
+  color: rgba(255, 255, 255, 0.55);
+  position: relative;
+  justify-content: space-between;
+}
+
+.search-bar{
+  background: rgba(33,37,41,1);
+  width: 100%;
+}
+
+.search-bar:active, 
+.search-bar:focus
+{
+  background: rgba(33,37,41,1);
+  color: #fff;
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #ced4da;
+}
+
+.container.header{
+  max-width: 100%;
 }

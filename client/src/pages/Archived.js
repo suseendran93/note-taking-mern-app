@@ -2,13 +2,18 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeColor } from "../slices/colorSlice";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 import { Modal, Button } from "react-bootstrap";
 import { getNote, updateNote, deleteNote } from "../api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBackward, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faLeftLong, faTrash } from "@fortawesome/free-solid-svg-icons";
 import CustomizeNote from "../components/CustomizeNote";
 const Archived = () => {
   const [notes, setNotes] = useState([]);
+  const [filteredNotes, setFilteredNotes] = useState([]);
+
+  const location = useLocation();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showEditModal, setShowEditModal] = useState(null);
   const [id, setId] = useState();
@@ -20,6 +25,9 @@ const Archived = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userId = sessionStorage.getItem("userId");
+  const params = new URLSearchParams(location.search);
+
+  const searchParam = params.get("search");
 
   /*
   rebeccapurple
@@ -27,6 +35,17 @@ const Archived = () => {
   darkolivegreen
   goldenrod
   */
+  useEffect(() => {
+    // Filter the notes based on the searchParam
+    const filteredNotes = searchParam
+      ? notes.filter(
+          (note) =>
+            note.text.toLowerCase().includes(searchParam.toLowerCase()) ||
+            note.title.toLowerCase().includes(searchParam.toLowerCase())
+        )
+      : notes;
+    setFilteredNotes(filteredNotes);
+  }, [notes, searchParam]);
   useEffect(() => {
     getNote(userId).then((data) => {
       setNotes(data);
@@ -91,9 +110,19 @@ const Archived = () => {
     <div className="container" style={{ minHeight: "100vh" }}>
       <div className="row">
         <div className="col">
+          <div
+            className="edit-icons"
+            onClick={() => navigate("/notes")}
+            style={{ color: "#fff", textAlign: "left" }}
+          >
+            <FontAwesomeIcon
+              icon={faLeftLong}
+              style={{ cursor: "pointer", fontSize: "16px" }}
+            />
+          </div>
           <div className="row justify-content-center align-items-center m-2">
             {reversedData && reversedData.length !== 0
-              ? reversedData.map((note) => {
+              ? filteredNotes.map((note) => {
                   if (note.archive === true) {
                     return (
                       <div
@@ -225,17 +254,6 @@ const Archived = () => {
                 </Button>
               </Modal.Footer>
             </Modal>
-          </div>
-
-          <div
-            className="edit-icons"
-            onClick={() => navigate("/notes")}
-            style={{ color: "#fff" }}
-          >
-            <FontAwesomeIcon
-              icon={faBackward}
-              style={{ cursor: "pointer", fontSize: "16px" }}
-            />
           </div>
         </div>
       </div>

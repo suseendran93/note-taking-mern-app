@@ -4,6 +4,7 @@ import { auth } from "../firebase"; // Import the Firebase auth object
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHamburger, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "./Sidebar";
+import SearchBar from "./SearchBar";
 // Function to handle user sign-out
 
 export const Header = () => {
@@ -28,35 +29,49 @@ export const Header = () => {
   };
   return (
     <>
-      <header
-        style={{
-          backgroundColor: "rgba(33,37,41,1)",
-          color: "rgba(255, 255, 255, 0.55)",
-          position: "relative",
-        }}
-      >
-        {location.pathname !== "/" ? (
-          <button className="sidemenu-btn edit-icons">
-            <FontAwesomeIcon
-              icon={faHamburger}
-              style={{ cursor: "pointer", fontSize: "16px" }}
-              onClick={() => setOpenSidebar(!openSidebar)}
-            />
-          </button>
-        ) : null}
+      <div className="container header">
+        <header className="row header align-items-center">
+          {location.pathname !== "/" ? (
+            <div className="col-4">
+              <button className="sidemenu-btn edit-icons">
+                <FontAwesomeIcon
+                  icon={faHamburger}
+                  style={{ cursor: "pointer", fontSize: "16px" }}
+                  onClick={() => setOpenSidebar(!openSidebar)}
+                />
+              </button>
+              <h4
+                className="title-name edit-icons"
+                onClick={() => navigate("/notes")}
+              >
+                Noteyfy
+              </h4>
+            </div>
+          ) : null}
 
-        <h4
-          className="title-name edit-icons"
-          onClick={() => navigate("/notes")}
-        >
-          Noteyfy
-        </h4>
-        {location.pathname !== "/" ? (
-          <button className="signout-btn edit-icons" onClick={handleSignOut}>
-            <FontAwesomeIcon icon={faSignOutAlt} />
-          </button>
-        ) : null}
-      </header>
+          {location.pathname === "/" && (
+            <div className="col-12">
+              <h4 className="title-name edit-icons">Noteyfy</h4>
+            </div>
+          )}
+          {location.pathname !== "/" ? (
+            <div className="col-4" style={{ margin: "5px 0 5px 0" }}>
+              <SearchBar />
+            </div>
+          ) : null}
+
+          {location.pathname !== "/" ? (
+            <div className="col-2">
+              <button
+                className="signout-btn ed it-icons"
+                onClick={handleSignOut}
+              >
+                <FontAwesomeIcon icon={faSignOutAlt} />
+              </button>
+            </div>
+          ) : null}
+        </header>
+      </div>
       {openSidebar && (
         <div className={`sidebar ${openSidebar ? "open" : ""} `}>
           <Sidebar openSidebar={openSidebar} handleSidebar={handleSidebar} />

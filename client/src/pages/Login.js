@@ -124,14 +124,15 @@ const Login = () => {
       </div>
       {isForgotPasswordModalOpen && (
         <Modal
+          className="forgot-password"
           show={isForgotPasswordModalOpen}
           onHide={() => setIsForgotPasswordModalOpen(false)}
           backdrop="static"
-          size="lg"
+          size="md"
           scrollable={true}
         >
           <div className="row justify-content-center align-items-center">
-            <div className="col-4 m-2" style={{ textAlign: "center" }}>
+            <div className="col-12 m-2" style={{ textAlign: "center" }}>
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -142,11 +143,11 @@ const Login = () => {
             </div>
           </div>
           <div className="row justify-content-center align-items-center">
-            <div className="col-4" style={{ textAlign: "center" }}>
+            <div className="col-12" style={{ textAlign: "center" }}>
               <button
                 onClick={handleForgotPassword}
                 type="button"
-                className="custom-btn"
+                className="custom-btn edit-icons"
               >
                 Send Reset Email
               </button>
