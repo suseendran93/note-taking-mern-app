@@ -45,9 +45,10 @@ const CustomizeNote = ({ id, notes, setShowEditModal }) => {
     e.preventDefault();
 
     const newData = { ...data, color: color.payload };
-    updateNote(newData, id);
-    dispatch(changeRefresh(!refresh));
-    setShowColorPalette(false);
+    updateNote(newData, id).then(() => {
+      dispatch(changeRefresh(!refresh));
+      setShowColorPalette(false);
+    });
   };
 
   const handleArchive = (e) => {

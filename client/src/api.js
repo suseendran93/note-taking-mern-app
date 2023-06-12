@@ -1,5 +1,5 @@
 const addNote = async (title, text, userId) => {
-  return fetch("http://localhost:5000/notes/add", {
+  return fetch("https://noteyfy-server.vercel.app/notes/add", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userId: userId, title: title, text: text }),
@@ -11,7 +11,9 @@ const addNote = async (title, text, userId) => {
     });
 };
 const getNote = async (userId) => {
-  return fetch(`http://localhost:5000/notes/retrieve/?userId=${userId}`)
+  return fetch(
+    `https://noteyfy-server.vercel.app/notes/retrieve/?userId=${userId}`
+  )
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -32,13 +34,17 @@ const updateNote = async (noteObj, id) => {
     }),
   };
 
-  return fetch("http://localhost:5000/notes/update/" + id, requestOptions)
+  return fetch(
+    "https://noteyfy-server.vercel.app/notes/update/" + id,
+    requestOptions
+  )
     .then((res) => res)
     .catch((error) => console.log(error));
 };
 
 const deleteNote = async (id) => {
-  return fetch(`http://localhost:5000/notes/remove/${id}`, {
+  //http://localhost:5000/notes/remove/${id}
+  return fetch(`https://noteyfy-server.vercel.app/notes/remove/${id}`, {
     method: "DELETE",
   })
     .then((res) => res)
