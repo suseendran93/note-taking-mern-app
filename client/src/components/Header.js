@@ -61,7 +61,7 @@ export const Header = () => {
                   className="img-logo"
                   alt="noteyfy-logo"
                   src={logo}
-                  width="70"
+                  width="60"
                   height="25"
                 />
               </div>
@@ -97,7 +97,7 @@ export const Header = () => {
           ) : null}
 
           {location.pathname !== "/" ? (
-            <div className="col-2">
+            <div className="col-4">
               <button
                 className="signout-btn ed it-icons"
                 onClick={handleSignOut}

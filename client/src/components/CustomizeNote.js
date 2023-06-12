@@ -54,16 +54,18 @@ const CustomizeNote = ({ id, notes, setShowEditModal }) => {
   const handleArchive = (e) => {
     e.preventDefault();
     const newData = { ...data, archive: !data.archive };
-    updateNote(newData, id);
-    dispatch(changeRefresh(!refresh));
-    setShowEditModal(null);
+    updateNote(newData, id).then(() => {
+      dispatch(changeRefresh(!refresh));
+      setShowEditModal(null);
+    });
   };
   const handlePinned = (e) => {
     e.preventDefault();
     const newData = { ...data, pinned: !data.pinned };
-    updateNote(newData, id);
-    dispatch(changeRefresh(!refresh));
-    setShowEditModal(null);
+    updateNote(newData, id).then(() => {
+      dispatch(changeRefresh(!refresh));
+      setShowEditModal(null);
+    });
   };
   return (
     <div className="row">
