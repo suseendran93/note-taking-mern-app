@@ -33,7 +33,7 @@ export const Header = () => {
       <div className="container header">
         <header className="row header align-items-center">
           {location.pathname !== "/" ? (
-            <div className="col-4">
+            <div className="col-5">
               <button className="sidemenu-btn edit-icons">
                 <FontAwesomeIcon
                   icon={faHamburger}
@@ -61,7 +61,7 @@ export const Header = () => {
                   className="img-logo"
                   alt="noteyfy-logo"
                   src={logo}
-                  width="60"
+                  width="70"
                   height="25"
                 />
               </div>
@@ -91,7 +91,7 @@ export const Header = () => {
             </div>
           )}
           {location.pathname !== "/" ? (
-            <div className="col-4" style={{ margin: "5px 0 5px 0" }}>
+            <div className="col-3" style={{ margin: "5px 0 5px 0" }}>
               <SearchBar />
             </div>
           ) : null}
