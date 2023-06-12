@@ -6,7 +6,7 @@ import {
   faArchive,
   faCheck,
   faClose,
-  faImage,
+  // faImage,
   faMapPin,
   faPalette,
 } from "@fortawesome/free-solid-svg-icons";
@@ -59,7 +59,6 @@ const CustomizeNote = ({ id, notes, setShowEditModal }) => {
   };
   const handlePinned = (e) => {
     e.preventDefault();
-    console.log("pinned");
     const newData = { ...data, pinned: !data.pinned };
     updateNote(newData, id);
     dispatch(changeRefresh(!refresh));
@@ -74,12 +73,12 @@ const CustomizeNote = ({ id, notes, setShowEditModal }) => {
           onClick={handleColorChange}
         />
       </div>
-      <div className="col-2 col-md-1 edit-icons">
+      {/* <div className="col-2 col-md-1 edit-icons">
         <FontAwesomeIcon
           icon={faImage}
           style={{ cursor: "pointer", fontSize: "16px" }}
         />
-      </div>
+      </div> */}
       <div className="col-2 col-md-1 edit-icons" onClick={handleArchive}>
         <FontAwesomeIcon
           icon={faArchive}

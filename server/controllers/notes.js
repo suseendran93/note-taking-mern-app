@@ -11,7 +11,6 @@ export const getAllNotes = (req, res) => {
       res.send(userNotes);
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).send("Internal server error");
     });
 };
@@ -26,7 +25,6 @@ export const getNoteById = (req, res) => {
       res.send(note);
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).send("Internal server error");
     });
 };
@@ -45,7 +43,6 @@ export const addNote = (req, res) => {
       res.json(note);
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).send("Internal server error");
     });
 };
@@ -57,7 +54,6 @@ export const deleteNote = (req, res) => {
       res.send(`Note ${id} deleted`);
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).send("Internal server error");
     });
 };

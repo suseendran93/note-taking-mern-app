@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHamburger, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "./Sidebar";
 import SearchBar from "./SearchBar";
+import logo from "../assets/noteyfy_logo.png";
 // Function to handle user sign-out
 
 export const Header = () => {
@@ -40,18 +41,53 @@ export const Header = () => {
                   onClick={() => setOpenSidebar(!openSidebar)}
                 />
               </button>
-              <h4
-                className="title-name edit-icons"
+              <div
+                className="edit-icons d-none d-md-inline-block"
                 onClick={() => navigate("/notes")}
               >
-                Noteyfy
-              </h4>
+                <img
+                  className="img-logo"
+                  alt="noteyfy-logo"
+                  src={logo}
+                  width="100"
+                  height="30"
+                />
+              </div>
+              <div
+                className="edit-icons d-inline-block d-md-none"
+                onClick={() => navigate("/notes")}
+              >
+                <img
+                  className="img-logo"
+                  alt="noteyfy-logo"
+                  src={logo}
+                  width="70"
+                  height="25"
+                />
+              </div>
             </div>
           ) : null}
 
           {location.pathname === "/" && (
             <div className="col-12">
-              <h4 className="title-name edit-icons">Noteyfy</h4>
+              <div className="d-none d-md-inline-block">
+                <img
+                  className="img-logo-login"
+                  alt="noteyfy-logo"
+                  src={logo}
+                  width="100"
+                  height="30"
+                />
+              </div>
+              <div className="d-inline-block d-md-none">
+                <img
+                  className="img-logo-login"
+                  alt="noteyfy-logo"
+                  src={logo}
+                  width="100"
+                  height="30"
+                />
+              </div>{" "}
             </div>
           )}
           {location.pathname !== "/" ? (

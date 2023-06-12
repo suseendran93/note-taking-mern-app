@@ -41,6 +41,7 @@ const NotesDisplay = ({ userId }) => {
       : notes;
     setFilteredNotes(filteredNotes);
   }, [notes, searchParam]);
+
   useEffect(() => {
     getNote(userId).then((data) => {
       setNotes(data);
@@ -51,7 +52,6 @@ const NotesDisplay = ({ userId }) => {
     // Handle edit logic
     setId(note._id);
     dispatch(changeColor(""));
-
     setShowEditModal({ ...note, color });
   };
 
