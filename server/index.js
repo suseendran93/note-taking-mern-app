@@ -9,7 +9,7 @@ import { notesRouter } from "./routes/notes.js";
 //To use above import statements in node insert type: module in package.json
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json()); //This is a middleware
 app.use(cors());
