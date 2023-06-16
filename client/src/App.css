@@ -12,6 +12,7 @@ sans-serif; ;
 }
 
 
+
 /*------------CSS RESET SECTION-------------------*/
 *,
 *::before,
@@ -145,6 +146,13 @@ select {
   color: #fff;
 }
 
+.custom-login-btn{
+  text-align: left;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.55);;
+  text-decoration: underline;
+}
 .notes-content{
   background-color: var(--background);
   color: #fff;
@@ -360,4 +368,22 @@ input:-internal-autofill-selected {
 .img-logo-login{
   margin: 5px;
   border-radius:25px;
+}
+
+.login-label{
+  color:rgba(255, 255, 255, 0.55);
+  /* text-align: right; */
+}
+
+.signin-label{
+  color:rgba(255, 255, 255, 0.55);
+
+}
+
+.login-card{
+  max-width: 40rem;
+  margin: auto;
+  background: var(--background);
+  box-shadow: var(--boxShadow);
+  height: 65vh;
 }

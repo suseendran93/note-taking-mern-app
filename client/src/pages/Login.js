@@ -8,7 +8,9 @@ import {
   // confirmPasswordReset,
 } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
-import { Modal } from "react-bootstrap";
+import { Modal, Card } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLongArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -64,64 +66,80 @@ const Login = () => {
   };
   return (
     <div className="container" style={{ height: "100vh" }}>
-      <div className="row p-3">
-        <form>
-          <div className="col-12 my-3">
-            <input
-              type="email"
-              id="email"
-              className="note-input-field px-3 py-1"
-              value={email}
-              placeholder="Username"
-              onChange={(e) => setEmail(e.target.value)}
-            />
+      <Card className="row p-3 my-5 login-card">
+        <div className="col">
+          <div className="row justify-content-center my-4">
+            <div className="col-12 col-md-2 login-label">
+              <label for="email">Email:</label>
+            </div>
+            <div className="col-12 col-md-3">
+              <input
+                type="email"
+                id="email"
+                className="note-input-field px-3 py-1"
+                value={email}
+                placeholder="Username"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="col-12 my-3">
-            <input
-              type="password"
-              id="password"
-              className="note-input-field px-3 py-1"
-              value={password}
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+
+          <div className="row justify-content-center my-4">
+            <div className="col-12 col-md-2 login-label">
+              <label for="password">Password:</label>
+            </div>
+            <div className="col-12 col-md-3">
+              <input
+                type="password"
+                id="password"
+                className="note-input-field px-3 py-1"
+                value={password}
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
           </div>
           <div className="row">
             <ToastContainer />
           </div>
-          <div className="row justify-content-center align-items-center">
-            <div className="col-sm-2 col-6 my-2">
-              <button
-                type="button"
-                className="custom-btn edit-icons"
+          <div className="row justify-content-center align-items-center my-5">
+            <div className="col-12">
+              <FontAwesomeIcon
+                className="edit-icons"
+                icon={faLongArrowRight}
+                style={{
+                  cursor: "pointer",
+                  fontSize: "24px",
+                  color: "rgba(255, 255, 255, 0.55)",
+                }}
                 onClick={handleLogin}
-              >
-                Login
-              </button>
+              />
             </div>
-            <div className="col-sm-2 col-6">
-              <button
-                type="button"
-                className="custom-btn edit-icons"
-                onClick={handleRegister}
-              >
-                Register
-              </button>
-            </div>
-            <div className="row">
-              <div className="col-12 m-2">
+            <div className="row justify-content-center mt-5">
+              <div className="col-12 col-md-4">
                 <button
                   type="button"
-                  className="custom-btn edit-icons"
-                  onClick={() => setIsForgotPasswordModalOpen(true)}
+                  className="custom-login-btn"
+                  onClick={handleRegister}
+                >
+                  Register
+                </button>
+              </div>
+              <div className="col-12 col-md-4">
+                <button
+                  className="custom-login-btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsForgotPasswordModalOpen(true);
+                  }}
                 >
                   Forgot Password
                 </button>
               </div>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </Card>
       {isForgotPasswordModalOpen && (
         <Modal
           className="forgot-password"
@@ -143,13 +161,26 @@ const Login = () => {
             </div>
           </div>
           <div className="row justify-content-center align-items-center">
+            <div className="col-12 mt-4" style={{ textAlign: "center" }}>
+              <FontAwesomeIcon
+                icon={faLongArrowRight}
+                style={{
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  color: "rgba(255, 255, 255, 0.55)",
+                }}
+                onClick={handleForgotPassword}
+              />
+            </div>
             <div className="col-12" style={{ textAlign: "center" }}>
               <button
-                onClick={handleForgotPassword}
                 type="button"
-                className="custom-btn edit-icons"
+                className="custom-login-btn"
+                onClick={() => {
+                  setIsForgotPasswordModalOpen(false);
+                }}
               >
-                Send Reset Email
+                Close
               </button>
             </div>
           </div>
