@@ -104,16 +104,14 @@ const Login = () => {
           </div>
           <div className="row justify-content-center align-items-center my-5">
             <div className="col-12">
-              <FontAwesomeIcon
-                className="edit-icons"
-                icon={faLongArrowRight}
-                style={{
-                  cursor: "pointer",
-                  fontSize: "24px",
-                  color: "rgba(255, 255, 255, 0.55)",
-                }}
-                onClick={handleLogin}
-              />
+              <div className="login-btn">
+                <FontAwesomeIcon
+                  className="edit-icons"
+                  icon={faLongArrowRight}
+                  onClick={handleLogin}
+                  style={{ fontSize: "24px" }}
+                />
+              </div>
             </div>
             <div className="row justify-content-center mt-5">
               <div className="col-12 col-md-4">
