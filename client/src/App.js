@@ -20,6 +20,7 @@ const App = () => {
               </Layout>
             }
           />
+
           <Route
             path="/notes"
             element={
@@ -27,7 +28,7 @@ const App = () => {
                 <PrivateRoute Component={Notes} />
               </Layout>
             } //PrivateRoute is an HOC
-          ></Route>
+          />
           <Route
             path="/notes/archived"
             element={
