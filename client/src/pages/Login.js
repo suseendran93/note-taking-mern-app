@@ -65,8 +65,11 @@ const Login = () => {
     setIsForgotPasswordModalOpen(false);
   };
   return (
-    <div className="container" style={{ height: "100vh" }}>
-      <Card className="row p-3 my-5 login-card">
+    <div
+      className="login container"
+      style={{ height: "100vh", marginTop: "47px", paddingTop: "47px" }}
+    >
+      <Card className="row login-card">
         <div className="col">
           <div className="row justify-content-center my-4">
             <div className="col-12 col-md-2 login-label">
