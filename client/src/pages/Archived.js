@@ -107,7 +107,7 @@ const Archived = () => {
 
   const reversedData = notes && notes.slice().reverse();
   return (
-    <div className="container" style={{ minHeight: "100vh" }}>
+    <div className="container add-archive" style={{ minHeight: "100vh" }}>
       <div className="row">
         <div className="col">
           <div
