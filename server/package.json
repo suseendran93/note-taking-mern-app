@@ -5,10 +5,12 @@
   "main": "index.js",
   "type": "module",
   "engines": {
+
     "node":"20.X"
+
   },
   "scripts": {
-    "start":"node index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -22,5 +24,4 @@
     "mongoose": "^7.1.1",
     "nodemon": "^2.0.22"
   }
-
 }
